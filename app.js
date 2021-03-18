@@ -3,16 +3,33 @@
     const express = require('express');
     const app = express();
 
-    const  port = process.env.PORT || 3000;
+    require('dotenv').config()
 
-    //motor de plantillas 
+    const port = process.env.PORT || 3000;
+
+    //CONECION A BASE DE DATOS MONGODB
+
+    const mongoose = require('mongoose');
+    
+    const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.qa8kv.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`;
+    //'mongodb://localhost:27017/test'
+    //luego se haran variables de entorno para ocultar user y pw p q sino cualquiera se podria conectar
+    mongoose.connect(uri,
+        {useNewUrlParser: true, useUnifiedTopology: true}
+     )
+            .then(() => console.log('Base de datos conectada'))
+            .catch(e => console.log(e))
+
+
+
+    //MOTOR DE PLANTILLAS
     app.set('view engine', 'ejs');
     app.set('views',  __dirname + '/views')//nombre de directorio y el folder
  
 
     app.use(express.static(__dirname + '/public'));
 
-    //rutas web
+    //RUTAS WEB 
     app.use('/', require('./router/RutasWeb'));
     app.use('/mascotas', require('./router/Mascotas'));
 
@@ -33,6 +50,8 @@
     })
 
 
+    //para prender localhost = npm run dev
+    // npm i dotenv
 
 
 

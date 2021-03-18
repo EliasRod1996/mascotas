@@ -2,14 +2,30 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.render('mascotas', {
-        arrayMascotas: [
-            {id: 'skdssd', nombre: 'rex', descripcion: 'rex descripcion' },
-             
-            {id: 'skdssdfs', nombre: 'rex2', descripcion: 'rex2 descripcion' },
-        ]
-    })
+const Mascota = require('../models/mascota')
+
+router.get('/', async (req, res) => {
+
+    try {
+
+
+        const arrayMascotasDB = await Mascota.find()
+        console.log(arrayMascotasDB)  
+        
+        res.render('mascotas', {
+
+            arrayMascotas: arrayMascotasDB
+            //arrayMascotas = nombre de la propiedad
+            //el otro valores
+        })
+        
+    } catch (error) {
+        console.log(error)
+    }
+
+
+
+    
 })
 
-module.require = router;    
+module.exports = router;    
