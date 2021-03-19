@@ -1,7 +1,16 @@
 //___dirname = para darle dinamicidad esa va a ser la direccion del hosting
 //usando express npm i express
     const express = require('express');
+    const bodyParser = require('body-parser');
     const app = express();
+
+    //parse application/form para caturar un form (body)
+    app.use(bodyParser.urlencoded({extended: false}))
+    //.. json
+
+    app.use(bodyParser.json())
+
+    
 
     require('dotenv').config()
 
